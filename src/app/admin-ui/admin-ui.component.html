@@ -1,1 +1,21 @@
-<p>admin-ui works!</p>
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">First</th>
+        <th scope="col">Last</th>
+        <th scope="col">Handle</th>
+      </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>{{userData[0].id}}</td>
+            <td>{{userData[0].first_name}}</td>
+            <td>{{userData[0].last_name}}</td>
+            <td>{{userData[0].email}}</td>
+        </tr>
+    </tbody>
+</table>
+
+
+<button class="btn btn-primary" (click)="handleClick()">Click Me</button>
