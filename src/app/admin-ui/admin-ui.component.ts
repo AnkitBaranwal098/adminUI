@@ -46,7 +46,7 @@ export class AdminUIComponent
         // console.log(this.userData);
         this.currentPage = responseData.page;
         this.totalPages = responseData.total_pages
-      });
+      })
     }
   }
   
