@@ -1,21 +1,34 @@
-<table class="table">
-    <thead>
-      <tr>
-        <th scope="col">#</th>
-        <th scope="col">First</th>
-        <th scope="col">Last</th>
-        <th scope="col">Handle</th>
-      </tr>
-    </thead>
-    <!-- <tbody>
+<div *ngIf="userData.length>0">
+  <table class="table table-borderless">
+      <thead>
         <tr>
-            <td>{{userData[0].id}}</td>
-            <td>{{userData[0].first_name}}</td>
-            <td>{{userData[0].last_name}}</td>
-            <td>{{userData[0].email}}</td>
+          <th scope="col" class="text-center">ID</th>
+          <th scope="col" class="text-center">Full Name</th>
+          <th scope="col" class="text-center">Email</th>
+          <th scope="col" class="text-center">Actions</th>
         </tr>
-    </tbody> -->
-</table>
+      </thead>
+      <tbody>
+          <tr *ngFor="let user of userData">
+              <td class="text-center">{{user.id}}</td>
+              <td class="text-center">{{user.first_name + " " +user.last_name}}</td>
+              <td class="text-center">{{user.email}}</td>
+              <td class="text-center">
+                <span><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteUser(user.id)">Delete</button></span>
+                <span><button type="button" class="btn btn-warning btn-sm" (click)="onEditUser(user.id)">Edit</button></span>
+              </td>
+          </tr>
+      </tbody>
+  </table>
+  <div class="btn-container">
+    <span *ngFor="let btn of totalPagesArray">
+      <button class="btn btn-primary btn-sm" (click)="changePage(btn)">
+        {{btn}}
+      </button>
+    </span>
+  </div>
+</div>
+<div class="center">
+  <h3 *ngIf="userData.length==0">Oops!...No user found 😟</h3>
+</div>
 
-
-<button class="btn btn-primary" (click)="handleClick()">Click Me</button>
