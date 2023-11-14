@@ -1,4 +1,11 @@
-<div *ngIf="userData.length>0">
+<div *ngIf="modifiedUserData.length>0">
+  <input 
+  type="text" 
+  class="form-control" 
+  id="inputUser" 
+  placeholder="Search User By Name/Email..."
+  (change)="onSearchUsers($event)"
+  >
   <table class="table table-borderless">
       <thead>
         <tr>
@@ -9,13 +16,13 @@
         </tr>
       </thead>
       <tbody>
-          <tr *ngFor="let user of userData">
+          <tr *ngFor="let user of modifiedUserData">
               <td class="text-center">{{user.id}}</td>
               <td class="text-center">{{user.first_name + " " +user.last_name}}</td>
               <td class="text-center">{{user.email}}</td>
               <td class="text-center">
-                <span><button type="button" class="btn btn-danger btn-sm" (click)="onDeleteUser(user.id)">Delete</button></span>
-                <span><button type="button" class="btn btn-warning btn-sm" (click)="onEditUser(user.id)">Edit</button></span>
+                <span><button type="button" class="btn btn-danger btn-sm my-btn" (click)="onDeleteUser(user.id)">Delete</button></span>
+                <span><button type="button" class="btn btn-warning btn-sm my-btn" (click)="onEditUser(user.id)">Edit</button></span>
               </td>
           </tr>
       </tbody>
@@ -29,6 +36,6 @@
   </div>
 </div>
 <div class="center">
-  <h3 *ngIf="userData.length==0">Oops!...No user found 😟</h3>
+  <h3 *ngIf="modifiedUserData.length==0">Oops!...No user found 😟</h3>
 </div>
 

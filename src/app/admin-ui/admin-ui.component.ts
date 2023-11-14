@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import {HttpClient} from '@angular/common/http'
 import {User, UserPage} from '../User.interface'
 
 import {HttpRequestService} from '../http-request.service'
+import { UserServiceService } from '../user-service.service';
 
 @Component({
   selector: 'app-admin-ui',
@@ -12,11 +12,12 @@ import {HttpRequestService} from '../http-request.service'
 export class AdminUIComponent 
 {
   userData : User[] = []
+  modifiedUserData:User[] = []
   currentPage: number = 0;
   totalPages:number = 0;
   totalPagesArray : number[] = []
   generateTotalPagesArray: boolean = true;
-  constructor(private http:HttpClient, private httpService:HttpRequestService){}
+  constructor(private httpService:HttpRequestService, private userService: UserServiceService){}
 
   ngOnInit(){
     this.onFetchData(''); 
@@ -28,14 +29,15 @@ export class AdminUIComponent
       this.httpService.fetchDataFromUrl().subscribe((responseData: UserPage) => {
         // console.log(responseData.data);
         this.userData = responseData.data;
-        // console.log(this.userData);
+        this.modifiedUserData = this.userData
+        console.log(this.userData);
         this.currentPage = responseData.page;
         this.totalPages = responseData.total_pages
         if(this.generateTotalPagesArray){
           for(let i=0;i<this.totalPages;i++){
             this.totalPagesArray.push(i+1)
           }
-          console.log(this.totalPagesArray)
+          // console.log(this.totalPagesArray)
           this.generateTotalPagesArray = false
         }
       });
@@ -43,19 +45,26 @@ export class AdminUIComponent
       this.httpService.fetchDataFromUrl(passedUrl).subscribe((responseData: UserPage) => {
         // console.log(responseData.data);
         this.userData = responseData.data;
+        this.modifiedUserData = this.userData
         // console.log(this.userData);
         this.currentPage = responseData.page;
         this.totalPages = responseData.total_pages
       })
     }
   }
+
+  // onFetchData(passedUrl:string){
+  //   this.userService.FetchData('')
+  //   console.log(this.userService.userData)
+  // }
   
   onDeleteUser(id:number){
     console.log(id)
-    this.userData = this.userData.filter((user)=>{
+    this.modifiedUserData = this.modifiedUserData.filter((user)=>{
       return user.id!=id
     })
-    if(this.userData.length==0 && this.currentPage>1){
+    this.userData = this.modifiedUserData
+    if(this.modifiedUserData.length==0 && this.currentPage>1){
       this.onFetchData(`https://reqres.in/api/users?page=${this.currentPage-1}`);
     }  
   }
@@ -67,6 +76,21 @@ export class AdminUIComponent
 
   onChangePage(btn:number){
     this.onFetchData(`https://reqres.in/api/users?page=${btn}`)
+  }
+
+  onSearchUsers(event:any){
+    console.log(event.target.value.length)
+
+    if(event.target.value.length>0){
+      this.modifiedUserData = this.modifiedUserData.filter((user)=>{
+        return user.first_name.includes(event.target.value) || user.last_name.includes(event.target.value) || user.email.includes(event.target.value)
+      })
+    }
+    else{
+      this.modifiedUserData = this.userData
+    }
+    console.log(this.modifiedUserData)
+    // this.userData = this.modifiedUserData
   }
 
 }

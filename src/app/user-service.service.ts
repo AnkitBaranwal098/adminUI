@@ -24,7 +24,7 @@ export class UserServiceService {
       this.httpService.fetchDataFromUrl().subscribe((responseData: UserPage) => {
         // console.log(responseData.data);
         this.userData = responseData.data;
-        // console.log(this.userData);
+        console.log(this.userData);
         this.currentPage = responseData.page;
         this.totalPages = responseData.total_pages
         if (this.generateTotalPagesArray) {
